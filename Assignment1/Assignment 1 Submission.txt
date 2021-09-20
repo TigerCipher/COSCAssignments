@@ -1,3 +1,17 @@
+Console Output / Testing Results Section
+=====================================================================
+
+How many followers should this twitter user start with? 12000
+How much did this user grow by? [0 - 100 %] 35
+
+Marcelo started the week with 12000 followers.
+He gained 4200 followers this week.
+He ended the week with 16200 total followers.
+
+
+
+Source Code Section
+=====================================================================
 // Assignment 1 - Twitter
 // Matthew Rogers
 // 09/12/2021
