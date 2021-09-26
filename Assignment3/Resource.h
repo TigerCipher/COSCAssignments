@@ -31,3 +31,6 @@
 
 // My additions
 #define IDC_TEST_BUTTON 100
+#define IDC_RADIO_NICKELS 200
+#define IDC_RADIO_DIMES 201
+#define IDC_RADIO_QUARTERS 202

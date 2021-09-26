@@ -12,6 +12,11 @@ HINSTANCE hInst; // main window handle
 WCHAR szTitle[ MAX_LOADSTRING ]; // The title bar text
 WCHAR szWindowClass[ MAX_LOADSTRING ]; // the main window class name
 
+HWND gTextBoxCents; // text box to enter the amount of cents
+HWND gRadioButtonNickels;
+HWND gRadioButtonDimes;
+HWND gRadioButtonQuarters;
+
 // Forward declarations
 ATOM my_register_class(HINSTANCE hInstance);
 BOOL init_instance(HINSTANCE, int);
@@ -70,7 +75,7 @@ ATOM my_register_class(const HINSTANCE hInstance)
 	wcex.hInstance     = hInstance;
 	wcex.hIcon         = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ASSIGNMENT3));
 	wcex.hCursor       = LoadCursor(nullptr, IDC_ARROW);
-	wcex.hbrBackground = reinterpret_cast<HBRUSH>((COLOR_WINDOW + 1));
+	wcex.hbrBackground = reinterpret_cast<HBRUSH>((COLOR_WINDOW));
 	wcex.lpszMenuName  = MAKEINTRESOURCEW(IDC_ASSIGNMENT3);
 	wcex.lpszClassName = szWindowClass;
 	wcex.hIconSm       = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
@@ -84,20 +89,40 @@ BOOL init_instance(HINSTANCE hInstance, int nCmdShow)
 	hInst = hInstance;
 
 	const HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-	                                100, 100, 800, 650, nullptr, nullptr, hInstance, nullptr);
+	                                800, 400, 400, 350, nullptr, nullptr, hInstance, nullptr);
 
 	if (!hWnd)
 	{
 		return FALSE;
 	}
 
-	HWND hwndAmount = CreateWindowEx(WS_EX_CLIENTEDGE, TEXT("Edit"), TEXT("test"),
-	                                 WS_CHILD | WS_VISIBLE | WS_BORDER, 100, 20, 140, 20, hWnd, NULL, NULL, NULL);
+	gTextBoxCents = CreateWindowEx(WS_EX_CLIENTEDGE, TEXT("Edit"), TEXT("test"),
+	                               WS_CHILD | WS_VISIBLE | WS_BORDER,
+	                               100, 20, 140, 20,
+	                               hWnd, NULL, NULL, NULL);
+
+	UINT radioX = 30;
+	UINT radioY = 80;
+
+	gRadioButtonNickels = CreateWindowEx(0, TEXT("BUTTON"), TEXT("Nickels"),
+	                                     WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON,
+	                                     radioX, radioY, 150, 30,
+	                                     hWnd, (HMENU) IDC_RADIO_NICKELS, hInstance, NULL);
+
+	gRadioButtonDimes = CreateWindowEx(0, TEXT("BUTTON"), TEXT("Dimes"),
+	                                   WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON,
+	                                   radioX, radioY + 40, 150, 30,
+	                                   hWnd, (HMENU) IDC_RADIO_DIMES, hInstance, NULL);
+
+	gRadioButtonQuarters = CreateWindowEx(0, TEXT("BUTTON"), TEXT("Quarters"),
+	                                      WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON,
+	                                      radioX, radioY + 80, 150, 30,
+	                                      hWnd, (HMENU) IDC_RADIO_QUARTERS, hInstance, NULL);
 
 	// testing text input window
 	std::string testInput;
-	testInput.resize(GetWindowTextLength(hwndAmount) + 1, '\0');
-	GetWindowText(hwndAmount, LPWSTR(testInput.c_str()), GetWindowTextLength(hwndAmount) + 1);
+	testInput.resize(GetWindowTextLength(gTextBoxCents) + 1, '\0');
+	GetWindowText(gTextBoxCents, LPWSTR(testInput.c_str()), GetWindowTextLength(gTextBoxCents) + 1);
 
 	// Testing labels
 	HWND label = CreateWindow(TEXT("static"), LPCWSTR(testInput.c_str()), WS_VISIBLE | WS_CHILD, 60, 20, 25, 20, hWnd,
@@ -130,6 +155,53 @@ LRESULT CALLBACK WndProc(const HWND hWnd, const UINT message, const WPARAM wPara
 			case IDC_TEST_BUTTON:
 				DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
 				break;
+
+				// Radio buttons. When one is clicked, disable the others and enable that one
+			case IDC_RADIO_NICKELS:
+				{
+					switch (HIWORD(wParam))
+					{
+					case BN_CLICKED:
+						if (SendDlgItemMessage(hWnd, IDC_RADIO_NICKELS, BM_GETCHECK, 0, 0) == 0)
+						{
+							SendDlgItemMessage(hWnd, IDC_RADIO_NICKELS, BM_SETCHECK, 1, 0); // enables
+							SendDlgItemMessage(hWnd, IDC_RADIO_DIMES, BM_SETCHECK, 0, 0); // disables
+							SendDlgItemMessage(hWnd, IDC_RADIO_QUARTERS, BM_SETCHECK, 0, 0);
+						}
+						break;
+					}
+				}
+				break;
+			case IDC_RADIO_DIMES:
+			{
+				switch (HIWORD(wParam))
+				{
+				case BN_CLICKED:
+					if (SendDlgItemMessage(hWnd, IDC_RADIO_DIMES, BM_GETCHECK, 0, 0) == 0)
+					{
+						SendDlgItemMessage(hWnd, IDC_RADIO_NICKELS, BM_SETCHECK, 0, 0);
+						SendDlgItemMessage(hWnd, IDC_RADIO_DIMES, BM_SETCHECK, 1, 0);
+						SendDlgItemMessage(hWnd, IDC_RADIO_QUARTERS, BM_SETCHECK, 0, 0);
+					}
+					break;
+				}
+			}
+			break;
+			case IDC_RADIO_QUARTERS:
+			{
+				switch (HIWORD(wParam))
+				{
+				case BN_CLICKED:
+					if (SendDlgItemMessage(hWnd, IDC_RADIO_QUARTERS, BM_GETCHECK, 0, 0) == 0)
+					{
+						SendDlgItemMessage(hWnd, IDC_RADIO_NICKELS, BM_SETCHECK, 0, 0);
+						SendDlgItemMessage(hWnd, IDC_RADIO_DIMES, BM_SETCHECK, 0, 0);
+						SendDlgItemMessage(hWnd, IDC_RADIO_QUARTERS, BM_SETCHECK, 1, 0);
+					}
+					break;
+				}
+			}
+			break;
 			case IDM_ABOUT:
 				DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
 				break;
@@ -145,7 +217,7 @@ LRESULT CALLBACK WndProc(const HWND hWnd, const UINT message, const WPARAM wPara
 		{
 			PAINTSTRUCT ps;
 			HDC hdc = BeginPaint(hWnd, &ps);
-			// TODO: Add any drawing code that uses hdc here...
+			// TODO
 			EndPaint(hWnd, &ps);
 		}
 		break;
