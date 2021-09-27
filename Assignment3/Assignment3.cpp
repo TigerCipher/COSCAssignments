@@ -2,6 +2,7 @@
 
 #include "framework.h"
 #include "Assignment3.h"
+#include "MoneyCalculator.h"
 
 #include <string>
 
@@ -107,7 +108,7 @@ BOOL init_instance(HINSTANCE hInstance, int nCmdShow)
 	gTextBoxCents = CreateWindowEx(WS_EX_CLIENTEDGE, TEXT("Edit"), TEXT("100"),
 	                               WS_CHILD | WS_VISIBLE | WS_BORDER,
 	                               100, 20, 140, 20,
-	                               hWnd, NULL, NULL, NULL);
+	                               hWnd, NULL, hInstance, NULL);
 
 	UINT radioX = 30;
 	UINT radioY = 80;
@@ -128,11 +129,6 @@ BOOL init_instance(HINSTANCE hInstance, int nCmdShow)
 	                                      hWnd, (HMENU) IDC_RADIO_QUARTERS, hInstance, NULL);
 
 	SendDlgItemMessage(hWnd, IDC_RADIO_NICKELS, BM_SETCHECK, 1, 0); // enables
-
-	// testing text input window
-	std::string testInput;
-	testInput.resize(GetWindowTextLength(gTextBoxCents) + 1, '\0');
-	GetWindowText(gTextBoxCents, LPWSTR(testInput.c_str()), GetWindowTextLength(gTextBoxCents) + 1);
 
 
 	gButtonCalc = CreateWindowEx(0, TEXT("BUTTON"), TEXT("Calculate"),
@@ -161,13 +157,20 @@ LRESULT CALLBACK WndProc(const HWND hWnd, const UINT message, const WPARAM wPara
 				// Testing button
 			case IDC_TEST_BUTTON:
 				{
-					std::string testInput;
+					std::wstring testInput;
 					testInput.resize(GetWindowTextLength(gTextBoxCents) + 1, '\0');
+					GetWindowText(gTextBoxCents, LPWSTR(testInput.c_str()), GetWindowTextLength(gTextBoxCents) + 1);
 					
 					// TODO: Convert textInput to float and convert to selected option
 					
-					GetWindowText(gTextBoxCents, LPWSTR(testInput.c_str()), GetWindowTextLength(gTextBoxCents) + 1);
-					MessageBox(nullptr, LPCWSTR(testInput.c_str()), L"Results", MB_OK | MB_ICONINFORMATION);
+					int numCents = std::stoi(testInput);
+					MoneyCalculator calc(numCents);
+					std::string stringified = std::to_string(calc.getNickels()) + " Nickels"; // TODO coin type should be gotten from radio button
+
+					std::wstring wideStr = std::wstring(stringified.begin(), stringified.end());
+					const wchar_t* showableText = wideStr.c_str();
+					
+					MessageBox(nullptr, showableText, L"Results", MB_OK | MB_ICONINFORMATION);
 					//DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
 				}
 				break;
