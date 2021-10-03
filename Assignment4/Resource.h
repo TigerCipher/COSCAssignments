@@ -5,13 +5,13 @@
 #define IDS_APP_TITLE			103
 
 #define IDR_MAINFRAME			128
-#define IDD_ASSIGNMENT3_DIALOG	102
+#define IDD_ASSIGNMENT4_DIALOG	102
 #define IDD_ABOUTBOX			103
 #define IDM_ABOUT				104
 #define IDM_EXIT				105
-#define IDI_ASSIGNMENT3			107
+#define IDI_ASSIGNMENT4			107
 #define IDI_SMALL				108
-#define IDC_ASSIGNMENT3			109
+#define IDC_ASSIGNMENT4			109
 #define IDC_MYICON				2
 #ifndef IDC_STATIC
 #define IDC_STATIC				-1
@@ -30,7 +30,7 @@
 #endif
 
 // My additions
-#define IDC_TEST_BUTTON 100
+#define IDC_CALCULATOR_BUTTON 100
 #define IDC_RADIO_NICKELS 200
 #define IDC_RADIO_DIMES 201
 #define IDC_RADIO_QUARTERS 202

@@ -24,6 +24,7 @@
     <ProjectGuid>{6dabcfbb-c574-4fd1-b460-06a4454a0c12}</ProjectGuid>
     <RootNamespace>Assignment3</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Assignment4</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -139,22 +140,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Assignment3.h" />
+    <ClInclude Include="Assignment4.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MoneyCalculator.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Assignment3.cpp" />
+    <ClCompile Include="Assignment4.cpp" />
     <ClCompile Include="MoneyCalculator.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Assignment3.rc" />
+    <ResourceCompile Include="Assignment4.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Assignment3.ico" />
+    <Image Include="Assignment4.ico" />
     <Image Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
