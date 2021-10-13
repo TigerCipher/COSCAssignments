@@ -47,6 +47,7 @@ int WINAPI wWinMain(HINSTANCE hInstance,
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
 
+
 	// Initialize global strings
 	LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
 	LoadStringW(hInstance, IDC_ASSIGNMENT4, szWindowClass, MAX_LOADSTRING);
