@@ -32,7 +32,7 @@ CONSOLE OUTPUT/TESTING RESULTS:
 
  C++ SOURCE CODE:
 
-// Matthew Rogers
+// Matthew Rogers COSC 1436.900
 // 10/27/2021
 // Assignment 6a - Temperature Table
 
